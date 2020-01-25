@@ -146,13 +146,32 @@ class Sudoku {
 
     void print() const
     {
+        int box_len = int(std::pow(size, 0.5));
+
+        std::cout << " ";
+        for (int k = 0; k < size * 2 - 1; ++k)
+            std::cout << "-";
+        std::cout << "\n";
+
         for (int i = 0; i < size; ++i)
         {
+            std::cout << "|";
             for (int j = 0; j < size; ++j)
             {
-                std::cout << grid[i][j]->get() << " ";
+                std::cout << grid[i][j]->get();
+                if (j % box_len == box_len - 1)
+                    std::cout << "|";
+                else
+                    std::cout << " ";
             }
-            std::cout << '\n';
+            std::cout << "\n";
+            if (i % box_len == box_len - 1)
+            {
+                std::cout << " ";
+                for (int k = 0; k < size * 2 - 1; ++k)
+                    std::cout << "-";
+                std::cout << "\n";
+            }
         }
         std::cout << '\n';
     }
@@ -169,16 +188,23 @@ class Sudoku {
 };
 
 
-int main()
+int main(int argc, char* argv[])
 {
-    std::ifstream fin("puzzle.in");
-    if (!fin.is_open())
-        std::cout << "File not open\n";
-    Sudoku s(fin);
-    auto start = high_resolution_clock::now();
-    s.solve();
-    auto end = high_resolution_clock::now();
-    std::cout << duration_cast<milliseconds>((end - start)).count() << std::endl;
-
+    if (argc == 2)
+    {
+        std::ifstream fin(argv[1]);
+        if (!fin.is_open())
+            std::cout << "File not open\n";
+        Sudoku s(fin);
+        auto start = high_resolution_clock::now();
+        s.solve();
+        auto end = high_resolution_clock::now();
+        std::cout << duration_cast<milliseconds>((end - start)).count() << std::endl;
+    }
+    else
+    {
+        std::cerr << "Usage: a.out FILE.IN\n";
+    }
+    
     return 0;
 }
