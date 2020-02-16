@@ -113,7 +113,6 @@ class Sudoku {
     void solve()
     {
         solve_helper(0, empty_cells);
-        print_ans();
     }
 
 
@@ -199,7 +198,8 @@ int main(int argc, char* argv[])
         auto start = high_resolution_clock::now();
         s.solve();
         auto end = high_resolution_clock::now();
-        std::cout << duration_cast<milliseconds>((end - start)).count() << std::endl;
+        std::cout << duration_cast<milliseconds>((end - start)).count() << " milliseconds" << std::endl;
+	s.print_ans();
     }
     else
     {
